@@ -6,6 +6,7 @@ from fake_useragent import UserAgent
 chrome_options = webdriver.ChromeOptions()
 ua = UserAgent()
 user_agent = ua.random
+# chrome_options.add_experimental_option("detach", True)
 chrome_options.add_argument(f'--user-agent={user_agent}')
 
 driver = webdriver.Chrome(options=chrome_options)
@@ -30,5 +31,21 @@ driver.get("https://www.python.org")
 # print(bug_link.text)
 
 #-----------------------------------------------------------------------------------
+event_times = driver.find_elements(By.CSS_SELECTOR, value=".event-widget time")
+event_name = driver.find_element(By.CSS_SELECTOR, value=".event-widget")  # Using .event-widget li a does not get any data instead produces error.
+event_names = event_name.find_elements(By.TAG_NAME, value="a")
+# event_name = driver.find_elements(By.XPATH, value="//*[@id='content']/div/section/div[3]/div[2]/div/ul/li[1]/a")
+# times = [time.text for time in event_time]
+names = [name.text for name in event_names[1:]]
+events = {}
+# key value pair formated on a nested dictioanry {0: {'time':date, 'name': event_name}}
+# list_events = {time:name for (time,name) in zip(times[5:10], names[1:])}
+for n in range(len(event_times)):
+    events[n] = {
+        "time": event_times[n].text,
+        "name": names[n],
+    }
+
+print(events)
 # driver.close()  # Closes a tab
 driver.quit()  # Closes all tabs(program)
