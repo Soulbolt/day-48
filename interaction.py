@@ -11,8 +11,8 @@ chrome_options.add_argument(f'--user-agent={user_agent}')
 
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://en.wikipedia.org")
-total_articles = driver.find_element(By.ID, value="articlecount")
-print(total_articles.text.split()[0])
+total_articles = driver.find_element(By.CSS_SELECTOR, value="#articlecount a")
+print(total_articles.text)
 
 driver.quit()
 
